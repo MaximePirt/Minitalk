@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/31 07:22:12 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/02 02:00:25 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,31 @@ void	sig_handler(int sig)
 }
 void	traduc_shift(int sig, char a)
 {
-	int	c;
-	int	a;
+	int	i;
+	int c;
+	int	z;
+	// char *tmp;
+	
 
-	c = 0;
-	a = 0;
-	while (c < 8)
+	i = 0;
+	z = 0;
+	(void)a;
+		printf("OYO");
+
+	(void)z;
+	(void)sig;
+	(void)i;
+	while (i < 8)
 	{
+			c = c>>1;
+		
+		if (sig == SIGUSR1)
+			c = c*10+1;
+		else
+			c = c*10;
+		printf("OYO");
 	}
+	printf("Voila le res %d", c);
 }
 
 int	main(int argc, char **argv)

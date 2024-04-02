@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/31 07:21:17 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/02 01:59:52 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,16 @@ void	bitshifting(int sig, char *arg)
 				kill(sig, SIGUSR2);
 			else
 				printf("soucis");
-			a << 1;
-			i++;
+			a = a >> 1;
+							printf("Ca taff : [%d]\n", a);
+
 		}
+									printf("Changement de lettre !\n");
+
+			i++;
 	}
+		printf("exit");
+
 }
 
 void	sig_handler(int sig)
