@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/05 22:34:46 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/05 22:42:03 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	sig_handler(int sig)
 	if (c >= 15)
 	{
 		str = strjoin_int(str, res);
+		if (res == 0)
+			printf("\nvoila str : [%s]\n", str);
 		c = 0;
-		printf("\nvoila res : [%s]\n", str);
+		res = 0;
 	}
-	// if (res == 0)
+	// printf("\nvoici res : [%d]", res);
 }
 
 char	*strjoin_int(char *str, int int_char)
