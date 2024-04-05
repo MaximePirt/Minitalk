@@ -6,7 +6,7 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/30 04:05:11 by mpierrot          #+#    #+#              #
-#    Updated: 2024/03/31 01:29:32 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/04/05 22:35:57 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ RED			= \033[0;91m
 
 all: $(CLIENT) $(SERVER)
 
+
 $(LIBFT):
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
@@ -65,7 +66,7 @@ clean:
 
 fclean: clean
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
-	@$(RM) $(NAME)
+	@$(RM) $(CLIENT) $(SERVER)
 	@echo "$(RED)Minitalk executable has been destroy$(DEFCOLOR)"
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 00:07:32 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/31 04:57:22 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/05 22:17:46 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,9 @@
 # include <stdio.h>
 //////////////////
 void	sig_handler(int sig);
+
+// server functions
+int		traduc_shift(int sig, int res);
+char	*strjoin_int(char *str, int int_char);
 
 #endif

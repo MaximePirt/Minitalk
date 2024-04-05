@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/02 01:59:52 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/05 22:32:53 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,55 @@
 void	bitshifting(int sig, char *arg)
 {
 	size_t	i;
-	int		a;
-	int		c;
+	char	a;
+	int		scan;
 
-	c = 0;
 	i = 0;
-	printf("%s", arg);
+	printf("\n arg [%s]\n", arg);
 	while (arg[i])
 	{
-		a = arg[i] - '0';
-		while (c < 8)
+		a = arg[i];
+		scan = 1;
+		scan <<= 14;
+		while (scan != 0)
 		{
-			c++;
-			if ((a & 1) == 1)
+			if (scan & a)
+			{
 				kill(sig, SIGUSR1);
-			else if ((a & 1) == 0)
-				kill(sig, SIGUSR2);
+				printf("sig1\n");
+			}
 			else
-				printf("soucis");
-			a = a >> 1;
-							printf("Ca taff : [%d]\n", a);
-
+			{
+				kill(sig, SIGUSR2);
+				printf("sig2\n");
+			}
+			printf("Ca taff : [%d]\n", a);
+			scan >>= 1;
+			usleep(50);
 		}
-									printf("Changement de lettre !\n");
-
-			i++;
+		printf("Changement de lettre !\n");
+		i++;
 	}
-		printf("exit");
-
+	a = '\0';
+	scan = 1;
+	scan <<= 14;
+	while (scan != 0)
+	{
+		if (scan & a)
+		{
+			kill(sig, SIGUSR1);
+			printf("sig1\n");
+		}
+		else
+		{
+			kill(sig, SIGUSR2);
+			printf("sig2\n");
+		}
+		printf("Ca taff : [%d]\n", a);
+		scan >>= 1;
+		usleep(50);
+	}
+	printf("exit");
 }
 
 void	sig_handler(int sig)

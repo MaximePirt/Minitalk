@@ -1,2 +1,10 @@
 obtenir pid server, serv attend indefiniment signal, et dise recu tel truc
 et le client attend pid + signal
+
+
+indices :
+\0
+reverse thinking
+j envoyais \0 client ->server
+MAIS INVERSE
+

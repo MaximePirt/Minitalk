@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/02 02:00:25 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/05 22:34:46 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,47 @@
 
 void	sig_handler(int sig)
 {
-	(void)sig;
-	printf("\nLesgo\n");
-	////////////////////////////////////
-}
-void	traduc_shift(int sig, char a)
-{
-	int	i;
-	int c;
-	int	z;
-	// char *tmp;
-	
+	static int	res = 0;
+	static int	c = 0;
+	static char	*str = NULL;
 
-	i = 0;
-	z = 0;
-	(void)a;
-		printf("OYO");
-
-	(void)z;
-	(void)sig;
-	(void)i;
-	while (i < 8)
+	(void)str;
+	c++;
+	if (sig == 10)
+		res += 1;
+	if (c < 15)
+		res <<= 1;
+	if (c >= 15)
 	{
-			c = c>>1;
-		
-		if (sig == SIGUSR1)
-			c = c*10+1;
-		else
-			c = c*10;
-		printf("OYO");
+		str = strjoin_int(str, res);
+		c = 0;
+		printf("\nvoila res : [%s]\n", str);
 	}
-	printf("Voila le res %d", c);
+	// if (res == 0)
+}
+
+char	*strjoin_int(char *str, int int_char)
+{
+	char	*dst;
+	size_t	i;
+
+	if (!str)
+		dst = (char *)malloc(sizeof(char) * 2);
+	else
+		dst = (char *)malloc((ft_strlen(str) + 2) * sizeof(char));
+	if (!dst)
+		return (NULL);
+	i = 0;
+	while (str && i < ft_strlen(str))
+	{
+		dst[i] = str[i];
+		i++;
+	}
+	dst[i] = int_char;
+	i++;
+	dst[i] = '\0';
+	free(str);
+	return (dst);
 }
 
 int	main(int argc, char **argv)
@@ -55,9 +65,10 @@ int	main(int argc, char **argv)
 	(void)**argv;
 	i = 0;
 	printf("voila le pid %d\n", getpid());
-	// if (signal(SIGUSR1, sig_handler) < SIG_ERR)
-	// 	exit(EXIT_FAILURE);
+	printf("voila SIGUSR1 %d\n", SIGUSR1);
+	printf("voila SIGUSR2 %d\n", SIGUSR2);
 	signal(SIGUSR1, sig_handler);
+	signal(SIGUSR2, sig_handler);
 	while (i != 1)
 		pause();
 	return (1);
