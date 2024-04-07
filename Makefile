@@ -6,7 +6,7 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/30 04:05:11 by mpierrot          #+#    #+#              #
-#    Updated: 2024/04/05 22:35:57 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/04/07 23:28:49 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ_D = objs
 OBJ_FCLIENT = $(SRC_Client:%.c=$(OBJ_D)/%.o)
 OBJ_FSERVER = $(SRC_Server:%.c=$(OBJ_D)/%.o)
 
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 AR = ar rcs

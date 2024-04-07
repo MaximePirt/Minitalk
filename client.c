@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/05 22:32:53 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/07 23:59:40 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	bitshifting(int sig, char *arg)
 	int		scan;
 
 	i = 0;
-	printf("\n arg [%s]\n", arg);
 	while (arg[i])
 	{
 		a = arg[i];
@@ -28,21 +27,14 @@ void	bitshifting(int sig, char *arg)
 		while (scan != 0)
 		{
 			if (scan & a)
-			{
 				kill(sig, SIGUSR1);
-				printf("sig1\n");
-			}
 			else
-			{
 				kill(sig, SIGUSR2);
-				printf("sig2\n");
-			}
-			printf("Ca taff : [%d]\n", a);
 			scan >>= 1;
 			usleep(50);
 		}
-		printf("Changement de lettre !\n");
 		i++;
+		pause();
 	}
 	a = '\0';
 	scan = 1;
@@ -50,40 +42,62 @@ void	bitshifting(int sig, char *arg)
 	while (scan != 0)
 	{
 		if (scan & a)
-		{
 			kill(sig, SIGUSR1);
-			printf("sig1\n");
-		}
 		else
-		{
 			kill(sig, SIGUSR2);
-			printf("sig2\n");
-		}
-		printf("Ca taff : [%d]\n", a);
 		scan >>= 1;
 		usleep(50);
 	}
 	printf("exit");
 }
 
-void	sig_handler(int sig)
+void	sig_handler_client(int sig, siginfo_t *info, void *context)
 {
 	(void)sig;
-	printf("\nSIG attrapé, on stop le programme %i\n", getpid());
+	(void)info;
+	(void)context;
+	printf("\nLEsgo i got_it %i\n", getpid());
+}
+
+void	setup_client(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_sigaction = sig_handler_client;
+	sa.sa_flags = SA_SIGINFO;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
 }
 
 int	main(int argc, char **argv)
 {
-	int AH;
+	int	sig;
 
-	(void)argc;
-	AH = ft_atoi(argv[1]);
-	if (AH < 1 || argc < 2)
+	sig = 0;
+	printf("Et voici mon PID [%i]\n", getpid());
+	if (argc < 2)
+	{
+		printf("EHNOOOOON");
+		return (-1);
+	}
+	printf("J ai %d arguments ", argc);
+	if (argc > 2)
+		sig = ft_atoi(argv[1]);
+	if (sig < 1)
 	{
 		printf("NOOOOON");
 		return (-1);
 	}
-	// sigaction(SIGUSR1);
-	bitshifting(AH, argv[2]);
+	setup_client();
+	bitshifting(sig, argv[2]);
 	return (1);
 }
