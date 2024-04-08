@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/07 23:56:57 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:17:40 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,23 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 	c++;
 	if (sig == 10)
 		res += 1;
-	if (c < 15)
+	if (c < 9)
 		res <<= 1;
-	if (c >= 15)
+	// printf("\nVoici mon res[%d]", res);
+	if (c >= 9)
 	{
-		usleep(50);
 		str = strjoin_int(str, res, sig);
 		if (res == 0)
 		{
 			printf("\nvoila str : [%s]\n", str);
-			free(str);
+			// ft_putstr_fd(str, 1);
+			if (str)
+				free(str);
 			str = NULL;
 			kill(info->si_pid, SIGUSR1);
 		}
 		c = 0;
 		res = 0;
-		printf("Sig sent");
 	}
 }
 
@@ -49,8 +50,7 @@ char	*strjoin_int(char *str, int int_char, int sig)
 	char	*dst;
 	size_t	i;
 
-	(void)sig;
-	// printf("\nCoucou jsuis le sig [%d]", sig);
+	(void)sig; //////////////////////////////////
 	if (!str)
 		dst = (char *)malloc(sizeof(char) * 2);
 	else

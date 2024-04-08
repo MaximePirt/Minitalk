@@ -6,12 +6,13 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/07 23:59:40 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:18:12 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
+volatile sig_atomic_t	stop = 1;
 void	bitshifting(int sig, char *arg)
 {
 	size_t	i;
@@ -23,7 +24,7 @@ void	bitshifting(int sig, char *arg)
 	{
 		a = arg[i];
 		scan = 1;
-		scan <<= 14;
+		scan <<= 8;
 		while (scan != 0)
 		{
 			if (scan & a)
@@ -31,14 +32,28 @@ void	bitshifting(int sig, char *arg)
 			else
 				kill(sig, SIGUSR2);
 			scan >>= 1;
-			usleep(50);
+			usleep(200);
+			// stop = 1;
 		}
 		i++;
-		pause();
+		usleep(50);
+		// while (stop)
+		// {
+		// 	printf("\n\nazyyyyyyyyyyyy");
+		// 	pause();
+		// }
+		// stop = 1;
+		// usleep(900);
 	}
+	// while (stop)
+	// {
+	// 	pause();
+	// }
+	// stop = 1;
+	usleep(50);
 	a = '\0';
 	scan = 1;
-	scan <<= 14;
+	scan <<= 8;
 	while (scan != 0)
 	{
 		if (scan & a)
@@ -46,7 +61,7 @@ void	bitshifting(int sig, char *arg)
 		else
 			kill(sig, SIGUSR2);
 		scan >>= 1;
-		usleep(50);
+		usleep(200);
 	}
 	printf("exit");
 }
@@ -57,6 +72,7 @@ void	sig_handler_client(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)context;
 	printf("\nLEsgo i got_it %i\n", getpid());
+	stop = 0;
 }
 
 void	setup_client(void)
@@ -99,5 +115,7 @@ int	main(int argc, char **argv)
 	}
 	setup_client();
 	bitshifting(sig, argv[2]);
+	while (stop)
+		pause();
 	return (1);
 }
