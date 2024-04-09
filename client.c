@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/08 20:06:47 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:18:20 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,32 @@ void	bitshifting(int sig, char *arg)
 		a = arg[i];
 		scan = 1;
 		scan <<= 8;
-		while (scan != 0)
+		while (scan > 0)
 		{
+			usleep(600);
 			if (scan & a)
 				kill(sig, SIGUSR1);
 			else
 				kill(sig, SIGUSR2);
 			scan >>= 1;
-			usleep(100);
+			// usleep(100);
 		}
 		i++;
-		usleep(100);
+		usleep(600);
 		ft_putchar(a);
 	}
+	usleep(300);
 	a = '\0';
 	scan = 1;
 	scan <<= 8;
 	while (scan != 0)
 	{
+		usleep(400);
 		if (scan & a)
 			kill(sig, SIGUSR1);
 		else
 			kill(sig, SIGUSR2);
 		scan >>= 1;
-		usleep(100);
 	}
 	ft_putchar(a);
 	ft_putchar('\n');
@@ -88,18 +90,11 @@ int	main(int argc, char **argv)
 	sig = 0;
 	printf("Et voici mon PID [%i]\n", getpid());
 	if (argc < 2)
-	{
-		printf("EHNOOOOON");
 		return (-1);
-	}
-	printf("J ai %d arguments \n", argc);
 	if (argc > 2)
 		sig = ft_atoi(argv[1]);
 	if (sig < 1)
-	{
-		printf("NOOOOON");
 		return (-1);
-	}
 	setup_client();
 	bitshifting(sig, argv[2]);
 	return (1);

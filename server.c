@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/08 15:17:40 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:18:30 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,65 +14,102 @@
 
 void	sig_handler(int sig, siginfo_t *info, void *context)
 {
-	static int	res = 0;
-	static int	c = 0;
-	static char	*str = NULL;
+	static int		res = 0;
+	static int		i = 0;
+	static t_list	*end = NULL;
+	static t_list	*start = NULL;
 
-	// printf("Voila le suppose sig [%d]\n", info->si_pid);
-	// printf("Ou lui [%d]\n", info->pid);
 	(void)info;
 	(void)context;
-	c++;
-	if (sig == 10)
-		res += 1;
-	if (c < 9)
+	// printf("ptet le soucis c est i [%d]\n", i);
+	i++;
+	if (sig == SIGUSR1)
+		res |= 1;
+	if (i < 9)
 		res <<= 1;
-	// printf("\nVoici mon res[%d]", res);
-	if (c >= 9)
+	else
 	{
-		str = strjoin_int(str, res, sig);
+		ft_lstadd_back_kidecal(&end, ft_lstnew_int(res));
+		if (!start)
+			start = end;
 		if (res == 0)
 		{
-			printf("\nvoila str : [%s]\n", str);
-			// ft_putstr_fd(str, 1);
-			if (str)
-				free(str);
-			str = NULL;
+			print_stack(start);
+			ft_lstclear_c(&start);
+			end = NULL;
+			start = NULL;
 			kill(info->si_pid, SIGUSR1);
 		}
-		c = 0;
+		i = 0;
 		res = 0;
 	}
 }
 
-char	*strjoin_int(char *str, int int_char, int sig)
+void	ft_lstclear_c(t_list **lst)
 {
-	char	*dst;
-	size_t	i;
+	t_list	*tmp;
+	t_list	*next;
 
-	(void)sig; //////////////////////////////////
-	if (!str)
-		dst = (char *)malloc(sizeof(char) * 2);
-	else
-		dst = (char *)malloc((ft_strlen(str) + 2) * sizeof(char));
-	if (!dst)
+	if (!lst || !*lst)
+		return ;
+	tmp = *lst;
+	while (tmp)
 	{
-		printf("AH GROS C EST TROP");
-		return (NULL);
+		next = tmp->next;
+		tmp->letter = 0;
+		free(tmp);
+		tmp = next;
 	}
-	i = 0;
-	while (str && i < ft_strlen(str))
-	{
-		dst[i] = str[i];
-		i++;
-	}
-	dst[i] = int_char;
-	i++;
-	dst[i] = '\0';
-	if (str)
-		free(str);
-	return (dst);
+	*lst = NULL;
 }
+
+void	ft_lstadd_back_kidecal(t_list **lst, t_list *new)
+{
+	if (!new || !lst)
+		return ;
+	if (*lst)
+	{
+		while ((*lst))
+		{
+			if ((*lst)->next == NULL)
+				break ;
+			(*lst) = (*lst)->next;
+		}
+		(*lst)->next = new;
+		(*lst) = (*lst)->next;
+	}
+	else
+		*lst = new;
+}
+
+t_list	*ft_lstnew_int(int content)
+{
+	t_list	*newNode;
+	char	res;
+
+	res = content;
+	newNode = 0;
+	newNode = malloc(sizeof(t_list) * 1);
+	if (newNode == NULL)
+		return (NULL);
+	newNode->letter = res;
+	newNode->next = NULL;
+	return (newNode);
+}
+
+void	print_stack(t_list *stack)
+{
+	t_list	*tmp;
+
+	tmp = stack;
+	while (tmp->next)
+	{
+		ft_printf("%c", tmp->letter);
+		tmp = tmp->next;
+	}
+	ft_printf("%c\n", tmp->letter);
+}
+
 void	setup(void)
 {
 	struct sigaction	sa;
