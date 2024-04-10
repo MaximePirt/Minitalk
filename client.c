@@ -5,97 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 22:39:58 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/09 15:18:20 by mpierrot         ###   ########.fr       */
+/*   Created: 2024/04/10 13:51:59 by mpierrot          #+#    #+#             */
+/*   Updated: 2024/04/10 16:45:43 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	bitshifting(int sig, char *arg)
+void	sending_bits(int pid, char *str)
 {
 	size_t	i;
-	char	a;
-	int		scan;
+	int		a;
+	int		c;
 
 	i = 0;
-	while (arg[i])
+	while (str[i])
 	{
-		a = arg[i];
-		scan = 1;
-		scan <<= 8;
-		while (scan > 0)
+		a = str[i];
+		c = 0;
+		while (c < 8)
 		{
-			usleep(600);
-			if (scan & a)
-				kill(sig, SIGUSR1);
+			if (a & 1)
+				kill(pid, SIGUSR1);
 			else
-				kill(sig, SIGUSR2);
-			scan >>= 1;
-			// usleep(100);
+				kill(pid, SIGUSR2);
+			printf("\nVoici la valeur de 'a' [%d]", a);
+			a >>= 1;
+			c++;
+			usleep(800);
 		}
 		i++;
-		usleep(600);
-		ft_putchar(a);
 	}
-	usleep(300);
-	a = '\0';
-	scan = 1;
-	scan <<= 8;
-	while (scan != 0)
+	c = 0;
+	while (c < 8)
 	{
-		usleep(400);
-		if (scan & a)
-			kill(sig, SIGUSR1);
-		else
-			kill(sig, SIGUSR2);
-		scan >>= 1;
-	}
-	ft_putchar(a);
-	ft_putchar('\n');
-	printf("exit");
-}
-
-void	sig_handler_client(int sig, siginfo_t *info, void *context)
-{
-	(void)sig;
-	(void)info;
-	(void)context;
-	printf("\nLEsgo i got_it %i\n", getpid());
-}
-
-void	setup_client(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_sigaction = sig_handler_client;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-	{
-		perror("sigaction");
-		exit(EXIT_FAILURE);
-	}
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
-	{
-		perror("sigaction");
-		exit(EXIT_FAILURE);
+		usleep(800);
+		kill(pid, SIGUSR2);
+		c++;
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	int	sig;
-
-	sig = 0;
-	printf("Et voici mon PID [%i]\n", getpid());
+	int pid = 0;
 	if (argc < 2)
 		return (-1);
-	if (argc > 2)
-		sig = ft_atoi(argv[1]);
-	if (sig < 1)
+	else
+		pid = ft_atoi(argv[1]);
+	if (pid < 1)
 		return (-1);
-	setup_client();
-	bitshifting(sig, argv[2]);
-	return (1);
+	sending_bits(pid, argv[2]);
 }

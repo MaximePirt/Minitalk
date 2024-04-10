@@ -5,118 +5,68 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/30 22:40:30 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/09 15:18:30 by mpierrot         ###   ########.fr       */
+/*   Created: 2024/04/10 13:52:12 by mpierrot          #+#    #+#             */
+/*   Updated: 2024/04/10 17:01:56 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	sig_handler(int sig, siginfo_t *info, void *context)
+void	sig_handler(int sig)
 {
-	static int		res = 0;
 	static int		i = 0;
-	static t_list	*end = NULL;
-	static t_list	*start = NULL;
+	static int		res = 0;
+	static t_list	*lst = NULL;
 
-	(void)info;
-	(void)context;
-	// printf("ptet le soucis c est i [%d]\n", i);
 	i++;
-	if (sig == SIGUSR1)
+	// ft_printf("\n[%d]e appel de signal", i);
+	// ft_printf("\n et voila le signal : [%d]", sig);
+	if (sig == 10)
 		res |= 1;
-	if (i < 9)
-		res <<= 1;
-	else
+	res <<= 1;
+	if (!(i % 8))
 	{
-		ft_lstadd_back_kidecal(&end, ft_lstnew_int(res));
-		if (!start)
-			start = end;
+		// ft_printf("\n\nVoila res avant ts [%d]\n", res);
+		res = ft_translate(res);
+		// ft_printf("\n\nVoila res apres ts [%d]\n", res);
+		// ft_printf("\nVoila la valeur de i [%d]\n", i);
+		ft_lstadd_back(&lst, ft_lstnew_int(res));
 		if (res == 0)
 		{
-			print_stack(start);
-			ft_lstclear_c(&start);
-			end = NULL;
-			start = NULL;
-			kill(info->si_pid, SIGUSR1);
+			ft_putstr("\nres\n");
+			print_stack(lst);
+			ft_lstclear_c(&lst);
 		}
-		i = 0;
 		res = 0;
 	}
 }
 
-void	ft_lstclear_c(t_list **lst)
+int	ft_translate(int start)
 {
-	t_list	*tmp;
-	t_list	*next;
+	int	res;
+	int	i;
 
-	if (!lst || !*lst)
-		return ;
-	tmp = *lst;
-	while (tmp)
+	i = 0;
+	res = 0;
+	// ft_printf("Voici l arrivee [%d]\n", start);
+	while (i < 9)
 	{
-		next = tmp->next;
-		tmp->letter = 0;
-		free(tmp);
-		tmp = next;
+		res <<= 1;
+		if (start & 1)
+			res |= 1;
+		start >>= 1;
+		i++;
 	}
-	*lst = NULL;
+	// ft_printf("Voici le resultat de res [%d]\n", res);
+	return (res);
 }
-
-void	ft_lstadd_back_kidecal(t_list **lst, t_list *new)
-{
-	if (!new || !lst)
-		return ;
-	if (*lst)
-	{
-		while ((*lst))
-		{
-			if ((*lst)->next == NULL)
-				break ;
-			(*lst) = (*lst)->next;
-		}
-		(*lst)->next = new;
-		(*lst) = (*lst)->next;
-	}
-	else
-		*lst = new;
-}
-
-t_list	*ft_lstnew_int(int content)
-{
-	t_list	*newNode;
-	char	res;
-
-	res = content;
-	newNode = 0;
-	newNode = malloc(sizeof(t_list) * 1);
-	if (newNode == NULL)
-		return (NULL);
-	newNode->letter = res;
-	newNode->next = NULL;
-	return (newNode);
-}
-
-void	print_stack(t_list *stack)
-{
-	t_list	*tmp;
-
-	tmp = stack;
-	while (tmp->next)
-	{
-		ft_printf("%c", tmp->letter);
-		tmp = tmp->next;
-	}
-	ft_printf("%c\n", tmp->letter);
-}
-
 void	setup(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_sigaction = sig_handler;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_handler = sig_handler;
 	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 	{
 		perror("sigaction");
@@ -129,16 +79,10 @@ void	setup(void)
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	(void)argc;
-	(void)**argv;
+	printf("PID %d\n", getpid());
 	setup();
-	printf("voila le pid %d\n", getpid());
-	// printf("voila SIGUSR1 %d\n", SIGUSR1);
-	// printf("voila SIGUSR2 %d\n", SIGUSR2);
-	// sigaction(SIGUSR1, sig_handler, NULL);
-	// sigaction(SIGUSR2, sig_handler, NULL);
 	while (1)
 		pause();
 	return (1);

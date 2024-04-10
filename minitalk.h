@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/31 00:07:32 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/09 14:43:41 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:47:01 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,26 @@
 //////////////////
 # include <stdio.h>
 //////////////////
-// void	sig_handler(int sig);
-void	sig_handler(int sig, siginfo_t *info, void *context);
-void	sig_handler_client(int sig, siginfo_t *info, void *context);
+
+void	sig_handler_bonus(int sig, siginfo_t *info, void *context);
+void	sending_bits(int pid, char *str);
+
+// server bonus
+void	sig_handler(int sig);
 
 // server functions
 int		traduc_shift(int sig, int res);
-char	*strjoin_int(char *str, int int_char, int sig);
+int		ft_translate(int start);
 
+// Client functions
+void	sig_handler_client(int sig);
+
+// lst_func
 void	ft_lstadd_back_kidecal(t_list **lst, t_list *new);
 void	ft_lstclear_c(t_list **lst);
-
-void	print_stack(t_list *stack);
 t_list	*ft_lstnew_int(int content);
 
-/* Server */
-void	ft_received_char(int signum, siginfo_t *info, void *context);
-void	ft_if(int *j, char *str);
-/* client */
-void	ft_send_char(int pid, int byte);
-void	ft_send_str(int pid, char *str);
-int		ft_check(char *stack);
+// print func
+void	print_stack(t_list *stack);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 03:28:37 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/30 03:33:11 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:41:43 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_datalstlast(t_list *lst)
+t_list	*ft_lstlast(t_list *lst)
 {
 	if (!lst)
 		return (NULL);

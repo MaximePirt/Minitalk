@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 03:31:53 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/30 03:32:49 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:48:00 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_stack(t_list *stack)
 	tmp = stack;
 	while (tmp)
 	{
-		ft_printf("[%d]\n", tmp->value);
+		ft_printf("%c", tmp->letter);
 		tmp = tmp->next;
 	}
 }

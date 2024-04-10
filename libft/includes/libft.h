@@ -6,20 +6,21 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 15:16:29 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/30 04:00:37 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:12:06 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "ft_printf.h"
 # include <stdlib.h>
 # include <unistd.h>
-# include "ft_printf.h"
 
 typedef struct s_list
 {
 	char			*content;
+	char			letter;
 	int				value;
 	void			*payload;
 	struct s_list	*next;
@@ -70,7 +71,8 @@ void				ft_datalstcpy(t_list *give, t_list **copy);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstlast(t_list *lst);
-t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
 int					ft_pop(t_list **stack);
@@ -79,6 +81,6 @@ void				ft_push(t_list **stack, void *value);
 void				print_stack(t_list *stack);
 
 // Some calculs functions
-size_t	calcul_mediane(t_list *stack);
-						
+size_t				calcul_mediane(t_list *stack);
+
 #endif

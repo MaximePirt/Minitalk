@@ -6,19 +6,22 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/30 04:05:11 by mpierrot          #+#    #+#              #
-#    Updated: 2024/04/08 14:46:33 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/04/10 17:01:35 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_Client	= client.c
-SRC_Server	= server.c
-
+SRC_Server	= server.c mt_lst.c
+SRC_C_Bonus = client_bonus.c
+SRC_S_Bonus = server_bonus.c mt_lst.c
 
 SRC_D	= srcs/
 OBJ_D = objs
 
 OBJ_FCLIENT = $(SRC_Client:%.c=$(OBJ_D)/%.o)
 OBJ_FSERVER = $(SRC_Server:%.c=$(OBJ_D)/%.o)
+OBJ_FCLIENT_B = $(SRC_C_Bonus:%.c=$(OBJ_D)/%.o)
+OBJ_FSERVER_B = $(SRC_S_Bonus:%.c=$(OBJ_D)/%.o)
 
 CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
@@ -26,6 +29,8 @@ RM = rm -rf
 AR = ar rcs
 CLIENT = client
 SERVER = server
+CLIENT_B = client_bonus
+SERVER_B = server_bonus
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I includes/ -I $(LIBFT_DIR)/includes/
@@ -58,6 +63,15 @@ $(OBJ_D)/%.o: %.c
 	@echo "$(YELLOW)Compiling $<$(DEFCOLOR)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+bonus: $(CLIENT_B) $(SERVER_B)
+
+$(CLIENT_B): $(OBJ_FCLIENT_B) $(LIBFT)
+	@$(CC) $(OBJ_FCLIENT_B) $(LIBFT) -o $(CLIENT_B) $(CFLAGS) $(INCLUDES)
+	@echo "$(CYAN)Client version bonus has been compiled successfully$(DEFCOLOR)"
+
+$(SERVER_B): $(OBJ_FSERVER_B) $(LIBFT)
+	@$(CC) $(OBJ_FSERVER_B) $(LIBFT) -o $(SERVER_B) $(CFLAGS) $(INCLUDES)
+	@echo "$(CYAN)Server version bonus has been compiled successfully$(DEFCOLOR)"
 
 clean:
 	@$(MAKE) -s -C $(LIBFT_DIR) clean
@@ -66,10 +80,10 @@ clean:
 
 fclean: clean
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
-	@$(RM) $(CLIENT) $(SERVER)
+	@$(RM) $(CLIENT) $(SERVER) $(CLIENT_B) $(SERVER_B)
 	@echo "$(RED)Minitalk executable has been destroy$(DEFCOLOR)"
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
 
