@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:51:59 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/10 16:45:43 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/10 22:24:02 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,16 @@ void	sending_bits(int pid, char *str)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			printf("\nVoici la valeur de 'a' [%d]", a);
 			a >>= 1;
 			c++;
-			usleep(800);
+			usleep(600);
 		}
 		i++;
 	}
 	c = 0;
 	while (c < 8)
 	{
-		usleep(800);
+		usleep(700);
 		kill(pid, SIGUSR2);
 		c++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:51:59 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/10 16:46:05 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/10 22:22:23 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,16 @@ void	sending_bits(int pid, char *str)
 				kill(pid, SIGUSR1);
 			else
 				kill(pid, SIGUSR2);
-			printf("\nVoici la valeur de 'a' [%d]", a);
 			a >>= 1;
 			c++;
-			usleep(800);
+			usleep(900);
 		}
 		i++;
 	}
 	c = 0;
 	while (c < 8)
 	{
-		usleep(800);
+		usleep(700);
 		kill(pid, SIGUSR2);
 		c++;
 	}
@@ -48,7 +47,7 @@ void	sending_bits(int pid, char *str)
 void	sig_handler_client(int sig)
 {
 	(void)sig;
-	printf("\nYour text has been print succesfully on the server");
+	ft_putstr_fd("\nYour text has been print succesfully on the server", 1);
 }
 
 void	setup_client(void)
@@ -60,12 +59,12 @@ void	setup_client(void)
 	sa.sa_flags = 0;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 	{
-		perror("sigaction");
+		ft_putstr_fd("sigaction", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)
 	{
-		perror("sigaction");
+		ft_putstr_fd("sigaction", 2);
 		exit(EXIT_FAILURE);
 	}
 }
