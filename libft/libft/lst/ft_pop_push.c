@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 03:35:10 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/30 03:59:42 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:10:34 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	ft_pop_end(t_list **stack)
 	}
 	return (value);
 }
+
 void	ft_push(t_list **stack, void *value)
 {
 	ft_lstadd_front(stack, ft_lstnew(value));

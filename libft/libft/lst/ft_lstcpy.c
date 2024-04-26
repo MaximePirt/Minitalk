@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 03:36:53 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/03/30 03:54:34 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:10:10 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_datalstcpy(t_list *give, t_list **copy)
 {
-
 	*copy = NULL;
 	while (give != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 15:16:29 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/09 16:12:06 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:05:47 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ typedef struct s_list
 	void			*payload;
 	struct s_list	*next;
 }					t_list;
+
+/*-----------my_printf-----------*/
+int					ft_put_c(char c);
+int					ft_put_s(char *s);
+void				ft_put_i(int n, int *count);
+void				ft_put_uib(unsigned int nbr, char *base, int *count);
+void				ft_put_ulb(unsigned long nbr, char *base, int *count);
+int					my_printf(const char *s, ...);
 
 // Mandatory part
 int					ft_atoi(const char *str);
@@ -50,6 +58,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *src);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strjoin(char const *s1, char const *s2);
+char				*ft_strjoinwhichfree(char *s1, char *s2);
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlen(const char *str);

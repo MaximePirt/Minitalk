@@ -6,14 +6,14 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/30 04:05:11 by mpierrot          #+#    #+#              #
-#    Updated: 2024/04/10 19:20:00 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/04/26 10:56:52 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC_Client	= client.c
-SRC_Server	= server.c mt_lst.c
+SRC_Server	= server.c 
 Bonus_C = client_bonus.c
-Bonus_S = server_bonus.c mt_lst.c
+Bonus_S = server_bonus.c 
 
 SRC_D	= srcs/
 OBJ_D = objs
@@ -66,17 +66,7 @@ $(OBJ_D)/%.o: %.c
 	@echo "$(YELLOW)Compiling $<$(DEFCOLOR)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-bonus:  $(Bonus_C_Exec) $(Bonus_S_Exec) 
-
-$(Bonus_C_Exec): $(Bonus_CF) $(LIBFT)
-	@$(CC) $(Bonus_CF) $(LIBFT) -o $(Bonus_C_Exec) $(CFLAGS) $(INCLUDES)
-	@echo "$(CYAN)Client version bonus has been compiled successfully$(DEFCOLOR)"
-
-
-$(Bonus_S_Exec): $(Bonus_SF) $(LIBFT)
-	@$(CC) $(Bonus_SF) $(LIBFT) -o $(Bonus_S_Exec) $(CFLAGS) $(INCLUDES)
-	@echo "$(CYAN)Server version bonus has been compiled successfully$(DEFCOLOR)"
-
+bonus:  all 
 
 clean:
 	@$(MAKE) -s -C $(LIBFT_DIR) clean

@@ -6,7 +6,7 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/30 12:26:58 by mpierrot          #+#    #+#              #
-#    Updated: 2024/03/30 03:47:59 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/04/23 01:05:12 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ SRC_FILES = libft/mandatory/ft_atoi.c libft/mandatory/ft_bzero.c libft/mandatory
 			libft/calculs/calcul_mediane.c \
 			GNL/get_next_line.c GNL/get_next_line_utils.c \
 			ft_printf/ft_printf.c ft_printf/ft_putptrfunc.c ft_printf/ft_usefulfonc.c \
+			my_printf/my_printf_putnbr.c my_printf/my_printf_utils.c my_printf/my_printf.c \
 
-SRCDIR = libft GNL ft_printf
+SRCDIR = libft GNL ft_printf my_printf
 OBJ_D = objs
 OBJ_FILES = $(SRC_FILES:%.c=$(OBJ_D)/%.o)
 CC = clang

@@ -5,77 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 13:52:12 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/10 21:35:36 by mpierrot         ###   ########.fr       */
+/*   Created: 2024/04/23 18:02:39 by mpierrot          #+#    #+#             */
+/*   Updated: 2024/04/23 18:21:11 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft/includes/libft.h"
+#include <signal.h>
 
-void	sig_handler(int sig)
+void	sig_handler(int sig, siginfo_t *info, void *context)
 {
-	static int		i = 0;
-	static int		res = 0;
-	static t_list	*lst = NULL;
+	static int	i = 0;
+	static char	c = 0;
+	static char	*str = NULL;
+	char		str_c[2];
 
+	(void)context;
+	if (!str)
+		str = ft_calloc(1, 1);
+	if (sig == SIGUSR1)
+		c += 1 << (i % 8);
 	i++;
-	if (sig == 10)
-		res |= 1;
-	res <<= 1;
 	if (!(i % 8))
 	{
-		res = ft_translate(res);
-		ft_lstadd_back(&lst, ft_lstnew_int(res));
-		if (res == 0)
+		str_c[0] = c;
+		str_c[1] = '\0';
+		str = ft_strjoinwhichfree(str, str_c);
+		if (c == '\0')
 		{
-			print_stack(lst);
-			ft_lstclear_c(&lst);
+			ft_printf("%s\n", str);
+			free(str);
+			str = NULL;
+			kill(info->si_pid, SIGUSR2);
 		}
-		res = 0;
-	}
-}
-
-int	ft_translate(int start)
-{
-	int	res;
-	int	i;
-
-	i = 0;
-	res = 0;
-	while (i < 9)
-	{
-		res <<= 1;
-		if (start & 1)
-			res |= 1;
-		start >>= 1;
-		i++;
-	}
-	return (res);
-}
-void	setup(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = sig_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (sigaction(SIGUSR1, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("sigaction", 2);
-		exit(EXIT_FAILURE);
-	}
-	if (sigaction(SIGUSR2, &sa, NULL) == -1)
-	{
-		ft_putstr_fd("sigaction", 2);
-		exit(EXIT_FAILURE);
+		c = 0;
 	}
 }
 
 int	main(void)
 {
+	struct sigaction	sa;
+
+	sa.sa_sigaction = sig_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
 	ft_printf("PID %d\n", getpid());
-	setup();
 	while (1)
-		pause();
+	{
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
+	}
 	return (1);
 }
