@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 18:02:39 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/04/23 18:21:11 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:18:49 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	sig_handler(int sig, siginfo_t *info, void *context)
 		str = ft_strjoinwhichfree(str, str_c);
 		if (c == '\0')
 		{
-			ft_printf("%s\n", str);
+			ft_printf("%s", str);
 			free(str);
 			str = NULL;
 			kill(info->si_pid, SIGUSR2);
