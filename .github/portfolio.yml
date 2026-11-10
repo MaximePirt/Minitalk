@@ -1,0 +1,17 @@
+origin: 42
+domains: [systems]
+summary:
+  fr: 42 • C / UNIX signals
+  en: 42 • C / UNIX signals
+description:
+  fr: >
+    Communication client/serveur en C utilisant uniquement les signaux UNIX
+    (SIGUSR1/SIGUSR2) envoyés via kill(). Le client découpe une chaîne en
+    bits et les transmet un par un ; le serveur reconstruit chaque
+    caractère et accuse réception une fois le message complet reçu.
+  en: >
+    Client/server communication in C using only UNIX signals
+    (SIGUSR1/SIGUSR2) sent via kill(). The client splits a string into
+    bits and sends them one by one; the server rebuilds each character
+    and acknowledges reception once the full message is received.
+stack: [C, UNIX signals, Makefile]
